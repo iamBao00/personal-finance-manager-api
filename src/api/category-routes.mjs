@@ -46,10 +46,22 @@ router.delete("/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/all/:user_id", authenticateToken, async (req, res) => {
+// router.get("/all/:user_id", authenticateToken, async (req, res) => {
+//   try {
+//     const { user_id } = req.params;
+//     console.log(user_id, req.user._id);
+//     const categories = await CategoryService.findAllCategoriesByUserId(user_id);
+//     res.json(categories);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+router.get("/", authenticateToken, async (req, res) => {
   try {
-    const { user_id } = req.params;
-    const categories = await CategoryService.findAllCategoriesByUserId(user_id);
+    const categories = await CategoryService.findAllCategoriesByUserId(
+      req.user._id
+    );
     res.json(categories);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -8,6 +8,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     balance: { type: Number, default: 0 },
+    admin: { type: String, default: "false" },
   },
   {
     timestamps: true,

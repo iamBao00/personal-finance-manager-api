@@ -4,7 +4,7 @@ import Category from "../database/models/category-model.mjs";
 import mongoose from "mongoose";
 
 class TransactionService {
-  async addTransaction(user_id, category_id, amount, description) {
+  async addTransaction(user_id, category_id, amount, description, date) {
     try {
       // Tìm người dùng
       const user = await User.findById(user_id);
@@ -38,6 +38,7 @@ class TransactionService {
         category_id,
         amount,
         description,
+        date,
       });
       await transaction.save();
 

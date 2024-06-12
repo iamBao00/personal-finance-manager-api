@@ -9,12 +9,13 @@ const router = express.Router();
 router.post("/add", authenticateToken, async (req, res) => {
   try {
     const { _id } = req.user;
-    const { category_id, amount, description } = req.body;
+    const { category_id, amount, description, date } = req.body;
     const transaction = await TransactionService.addTransaction(
       _id,
       category_id,
       amount,
-      description
+      description,
+      date
     );
     res.status(201).json(transaction);
   } catch (error) {

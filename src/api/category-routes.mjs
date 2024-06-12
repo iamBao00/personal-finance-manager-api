@@ -7,8 +7,12 @@ const router = express.Router();
 
 router.post("/add", authenticateToken, async (req, res) => {
   try {
-    const { user_id, name, type } = req.body;
-    const category = await CategoryService.createCategory(user_id, name, type);
+    const { name, type } = req.body;
+    const category = await CategoryService.createCategory(
+      req.user._id,
+      name,
+      type
+    );
     res.status(201).json(category);
   } catch (error) {
     res.status(500).json({ message: error.message });

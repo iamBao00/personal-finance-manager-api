@@ -26,9 +26,11 @@ class UserService {
         password: hashedPassword,
       });
       if (user) {
-        return res
-          .status(201)
-          .json({ _id: user.id, email: user.email, username: user.username });
+        return res.status(201).json({
+          _id: user.id,
+          email: user.email,
+          username: user.username,
+        });
       } else {
         return res.status(400).json({ message: "User data is not valid" });
       }
@@ -59,7 +61,12 @@ class UserService {
       });
       return res.status(200).json({
         token,
-        user: { _id: user.id, email: user.email, username: user.username },
+        user: {
+          _id: user.id,
+          email: user.email,
+          username: user.username,
+          balance: user.balance,
+        },
       });
     } catch (error) {
       console.error(`Error from UserService.loginUser: ${error}`);

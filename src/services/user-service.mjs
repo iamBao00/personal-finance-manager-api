@@ -116,8 +116,18 @@ class UserService {
 
   async currentUser(req, res) {
     try {
+      const userId = req.user._id; // Lấy ID người dùng từ token đã giải mã
+      const currentUser = await User.findById(userId).select(
+        "-password -admin"
+      ); // Tìm người dùng theo ID và bỏ qua các trường không cần thiết
+
+      if (!currentUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res.status(200).json(currentUser);
       // Trả về thông tin người dùng từ req.user đã được thiết lập trong middleware authenticateToken
-      return res.status(200).json(req.user);
+      // return res.status(200).json(req.user);
     } catch (error) {
       console.error(`Error from UserService.currentUser: ${error}`);
       return res.status(500).json({ message: "Internal Server Error" });

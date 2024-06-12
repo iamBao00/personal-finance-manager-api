@@ -3,6 +3,8 @@ import connectDB from "./database/connection.mjs";
 import userRouter from "./api/user-routes.mjs";
 import categoryRouter from "./api/category-routes.mjs";
 import transactionRouter from "./api/transaction-routes.mjs";
+import goalRouter from "./api/goal-routes.mjs";
+import notificationRoutes from "./api/notification-router.mjs";
 import cors from "cors";
 
 const app = express();
@@ -24,6 +26,9 @@ connectDB();
 app.use("/api/users", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/transaction", transactionRouter);
+app.use("/api/goal", goalRouter);
+app.use("/api/notifications", notificationRoutes);
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

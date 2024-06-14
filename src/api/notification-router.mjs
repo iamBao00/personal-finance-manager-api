@@ -15,4 +15,11 @@ router.get(
 // API để lấy tất cả các Notification của người dùng
 router.get("/all", authenticateToken, NotificationService.listAllNotifications);
 
+// API để cập nhật thông báo thành đã đọc
+router.put(
+  "/read/:notificationId",
+  authenticateToken,
+  NotificationService.markAsRead
+);
+
 export default router;

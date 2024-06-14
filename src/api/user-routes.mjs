@@ -12,6 +12,12 @@ router.get("/current", authenticateToken, UserService.currentUser);
 
 // Các API quản lý user, chỉ dành cho admin
 router.post("/loginadmin", UserService.loginAdmin);
+router.post(
+  "/registeradmin",
+  authenticateToken,
+  adminOnly,
+  UserService.registerAdmin
+);
 router.get("/list", authenticateToken, adminOnly, UserService.listUser);
 router.delete(
   "/delete/:userId",

@@ -40,6 +40,44 @@ class UserService {
     }
   }
 
+  // Đăng ký admin
+  async registerAdmin(req, res) {
+    try {
+      const { username, email, password } = req.body;
+      if (!username || !email || !password) {
+        return res.status(400).json({
+          message: "Username, email, and password are all mandatory!",
+        });
+      }
+      const userAvailable = await User.findOne({ username });
+      if (userAvailable) {
+        return res.status(400).json({ message: "Username already registered" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log("Hashed Password: " + hashedPassword);
+      const user = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+        admin: "true",
+      });
+      if (user) {
+        return res.status(201).json({
+          _id: user.id,
+          email: user.email,
+          username: user.username,
+          admin: user.admin,
+        });
+      } else {
+        return res.status(400).json({ message: "User data is not valid" });
+      }
+    } catch (error) {
+      console.error(`Error from UserService.registerAdmin: ${error}`);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async loginUser(req, res) {
     try {
       const { username, password } = req.body;
@@ -88,7 +126,7 @@ class UserService {
         return res.status(400).json({ message: "User not found!" });
       }
       const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (password !== user.password) {
+      if (!isPasswordValid) {
         return res.status(400).json({ message: "Invalid password!" });
       }
       console.log("admin ne:" + user);
